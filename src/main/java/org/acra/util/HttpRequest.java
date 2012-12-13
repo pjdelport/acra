@@ -10,6 +10,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.acra.ACRA;
@@ -86,6 +89,7 @@ public final class HttpRequest {
         }
     }
 
+    public Map<String,String> extra_headers = new HashMap<String, String>();
     private String login;
     private String password;
     private int connectionTimeOut = 3000;
@@ -235,11 +239,16 @@ public final class HttpRequest {
         if (creds != null) {
             httpRequest.addHeader(BasicScheme.authenticate(creds, "UTF-8", false));
         }
+
         httpRequest.setHeader("User-Agent", "Android");
         httpRequest
                 .setHeader("Accept",
                         "text/html,application/xml,application/json,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
-        httpRequest.setHeader("Content-Type", type.getContentType());
+        if (extra_headers != null) {
+            for (Map.Entry<String, String> entry : extra_headers.entrySet()) {
+                httpRequest.setHeader(entry.getKey(), entry.getValue());
+            }
+        }
 
         httpRequest.setEntity(new StringEntity(content, "UTF-8"));
 
