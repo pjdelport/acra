@@ -132,7 +132,12 @@ public class SentrySender implements ReportSender {
         JSONObject obj = new JSONObject();
         Throwable exception = report.getOriginalThrowble();
         String message = report.getProperty(ReportField.STACK_TRACE).split("\n")[0];
-        obj.put("event_id", report.getProperty(ReportField.REPORT_ID)); //Hexadecimal string representing a uuid4 value.
+
+        // Hexadecimal string representing a uuid4 value.
+        final String uuid = report.getProperty(ReportField.REPORT_ID);
+        // XXX terrible hack: Convert 36-octet UUID string to 32-hexdigit Sentry event_id.
+        final String hexId = uuid.replaceAll("-", "");
+        obj.put("event_id", hexId);
 
         if (exception == null) {
             obj.put("culprit", message);
