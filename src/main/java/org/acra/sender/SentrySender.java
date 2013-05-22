@@ -2,21 +2,6 @@ package org.acra.sender;
 
 // Based on raven-java(Ken Cochrane and others)
 
-import static org.acra.ReportField.ANDROID_VERSION;
-import static org.acra.ReportField.APP_VERSION_CODE;
-import static org.acra.ReportField.APP_VERSION_NAME;
-import static org.acra.ReportField.AVAILABLE_MEM_SIZE;
-import static org.acra.ReportField.BRAND;
-import static org.acra.ReportField.FILE_PATH;
-import static org.acra.ReportField.INSTALLATION_ID;
-import static org.acra.ReportField.IS_SILENT;
-import static org.acra.ReportField.PACKAGE_NAME;
-import static org.acra.ReportField.PHONE_MODEL;
-import static org.acra.ReportField.PRODUCT;
-import static org.acra.ReportField.TOTAL_MEM_SIZE;
-import static org.acra.ReportField.USER_APP_START_DATE;
-import static org.acra.ReportField.USER_CRASH_DATE;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,9 +23,19 @@ import org.json.JSONObject;
 public class SentrySender implements ReportSender {
 
     private SentryConfig config;
-    public static final ReportField[] SENTRY_TAGS_FIELDS = { APP_VERSION_CODE, APP_VERSION_NAME,
-        PACKAGE_NAME, FILE_PATH, PHONE_MODEL, BRAND, PRODUCT, ANDROID_VERSION, TOTAL_MEM_SIZE,
-        AVAILABLE_MEM_SIZE, IS_SILENT, USER_APP_START_DATE, USER_CRASH_DATE, INSTALLATION_ID };
+
+    public static final ReportField[] SENTRY_TAGS_FIELDS = {
+        ReportField.ANDROID_VERSION,
+        ReportField.APP_VERSION_CODE,
+        ReportField.APP_VERSION_NAME,
+        ReportField.BRAND,
+        ReportField.INSTALLATION_ID,
+        ReportField.IS_SILENT,
+        ReportField.PACKAGE_NAME,
+        ReportField.PHONE_MODEL,
+        ReportField.PRODUCT,
+    };
+
     /**
      * Takes in a sentryDSN
      *
