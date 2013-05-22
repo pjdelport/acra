@@ -34,6 +34,7 @@ public class SentrySender implements ReportSender {
         ReportField.PACKAGE_NAME,
         ReportField.PHONE_MODEL,
         ReportField.PRODUCT,
+        ReportField.USER_EMAIL,
     };
 
     /**
