@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.acra.ACRA;
 import org.acra.ReportField;
@@ -67,7 +68,11 @@ public class SentrySender implements ReportSender {
         request.setConnectionTimeOut(ACRA.getConfig().connectionTimeout());
         request.setSocketTimeOut(ACRA.getConfig().socketTimeout());
         request.setMaxNrRetries(ACRA.getConfig().maxNumberOfRequestRetries());
-        request.extra_headers.put("X-Sentry-Auth", buildAuthHeader());
+
+        final HashMap<String,String> extra_headers = new HashMap<String,String>();
+        extra_headers.put("X-Sentry-Auth", buildAuthHeader());
+        request.setHeaders(extra_headers);
+
         try {
             request.send(config.getSentryURL(), Method.POST, buildJSON(errorContent), org.acra.sender.HttpSender.Type.JSON);
         } catch (MalformedURLException e) {
