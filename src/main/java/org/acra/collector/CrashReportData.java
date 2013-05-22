@@ -33,7 +33,8 @@ import org.json.JSONObject;
  */
 public final class CrashReportData extends EnumMap<ReportField, String> {
 
-    private static final long serialVersionUID = 4112578634029874840L;
+    private static final long serialVersionUID = 1600586845418701139L;
+    private static Throwable th = null;
 
     /**
      * Constructs a new {@code Properties} object.
@@ -54,5 +55,20 @@ public final class CrashReportData extends EnumMap<ReportField, String> {
 
     public JSONObject toJSON() throws JSONReportException {
         return JSONReportBuilder.buildJSONReport(this);
+    }
+
+
+    /**
+     * @return Return original Throwable object.
+     */
+    public Throwable getOriginalThrowble() {
+        return th;
+    }
+
+    /**
+     * @param Set original Throwable object
+     */
+    public void setOriginalThrowable(Throwable th) {
+        CrashReportData.th = th;
     }
 }

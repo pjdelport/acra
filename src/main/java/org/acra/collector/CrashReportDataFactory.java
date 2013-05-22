@@ -165,6 +165,9 @@ public final class CrashReportDataFactory {
         try {
             final List<ReportField> crashReportFields = getReportFields();
 
+            // Add original error data for further processing by custom sender.
+            crashReportData.setOriginalThrowable(th);
+
             // Make every entry here bullet proof and move any slightly dodgy
             // ones to the end.
             // This ensures that we collect as much info as possible before
