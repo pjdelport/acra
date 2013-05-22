@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -157,9 +158,9 @@ public class SentrySender implements ReportSender {
         obj.put("logger", "org.acra");
         obj.put("platform", "android");
         obj.put("tags", remap(report, SENTRY_TAGS_FIELDS));
-        if (ACRA.getConfig().customReportContent().length > 0) {
-            obj.put("extra", remap(report, ACRA.getConfig().customReportContent()));
-        }
+
+        // Send the full report details as additional data
+        obj.put("extra", remap(report, report.keySet()));
 
         if (ACRA.DEV_LOGGING) {
             ACRA.log.d(ACRA.LOG_TAG, obj.toString());
@@ -235,6 +236,10 @@ public class SentrySender implements ReportSender {
             ACRA.log.d(ACRA.LOG_TAG, originalKey.toString() + ": "+ report.getProperty(originalKey));
         }
         return result;
+    }
+
+    private JSONObject remap(CrashReportData report, Collection<ReportField> fields) throws JSONException {
+        return remap(report, fields.toArray(new ReportField[fields.size()]));
     }
 
     private class SentryConfig {
